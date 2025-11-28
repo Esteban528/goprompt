@@ -12,8 +12,8 @@ type Type int
 
 const (
 	Env Type = iota
-	Str Type = iota
-	Color Type = iota
+	Str   
+	Color 
 )
 
 type Token struct {
