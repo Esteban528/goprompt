@@ -3,11 +3,10 @@ PROGRAM=grompt
 SILENT=go
 BUILD_DIR := bin
 
-.PHONY: run build build-static
+.PHONY: run build build-static dev release
 
 run:
 	$(SILENT) run .
-
 
 dev:
 	env CONFIG_PATH=./config.json $(SILENT) run .
