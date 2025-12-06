@@ -67,7 +67,8 @@ The default config file is generated on `$HOME/.config/grompt.json`
 - **bash**:
 
 ```bash
-echo "export PS1='\$(grompt)'" >> ~/.bashrc && source ~/.bashrc
+echo 'export PS1="$(grompt | perl -pe '\''s/\x1b\[([0-9;]*m)/\\[\\e\[$1\\]/g'\'")"' >> ~/.bashrc 
+source ~/.bashrc
 ```
 
 - **zsh**:
