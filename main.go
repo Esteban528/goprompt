@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
@@ -40,7 +39,8 @@ func Converter(data []byte) []any {
 	err := json.Unmarshal(data, &conf)
 
 	if err != nil {
-		log.Fatal("malformed config file ", err)
+		fmt.Println("malformed config file ", err)
+		panic(err)
 	}
 
 	return conf
@@ -121,13 +121,44 @@ func Parser(tokens []Token) string {
 	return prompt
 }
 
-func main() {
+const CONFIGFILE_NAME = "grompt.json"
 
-	content, err := os.ReadFile("~/.config/")
+func main() {
+	homePath, err := os.UserHomeDir()
 
 	if err != nil {
-		log.Fatal("config file missing", err)
+		fmt.Println("Home dir error")
+		panic(err)
 	}
+
+	configPath := fmt.Sprintf("%s/.config/%s", homePath, CONFIGFILE_NAME)
+	customPath := os.Getenv("CONFIG_PATH")
+	if customPath != "" {
+		configPath = customPath
+	}
+
+	_, err = os.Stat(configPath)
+
+	if err != nil && !os.IsExist(err) {
+
+		content := `
+			[
+				"$USER",
+				"@",
+				"fg:green",
+				"${dir}"
+			]
+		`
+		os.WriteFile(configPath, []byte(content), 0644)
+	}
+
+	content, err := os.ReadFile(configPath)
+
+	if err != nil {
+		fmt.Println("config file missing", err)
+		panic(err)
+	}
+
 	initMap()
 	initColorMap()
 
