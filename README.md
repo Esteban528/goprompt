@@ -68,7 +68,7 @@ The default config file is generated on `$HOME/.config/grompt.json`
 
 Put this on .bashrc
 ```bash 
-PROMPT_COMMAND='PS1="$(grompt | perl -pe 's/\x1b\[([0-9;]*m)/\\[\\e[$1\\]/g')"' 
+PROMPT_COMMAND='PS1="$(grompt | perl -pe '''s/\x1b[([0-9;]*m)/\[\e[$1\]/g''')"'
 ```
 
 - **zsh**:
